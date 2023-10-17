@@ -4,7 +4,8 @@ import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/services/weather_service.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String locations;
+  const HomePage({super.key, required this.locations});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -13,10 +14,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final weatherservice = WeatherService();
   Weather? _weather;
-  fetchWeather() async {
+  fetchWeather(city) async {
     String cityName = await weatherservice.getCurrentCity();
     try {
-      final weather = await weatherservice.getWeather(cityName);
+      final weather = await weatherservice.getWeather(city);
       setState(() {
         _weather = weather;
       });
@@ -49,24 +50,46 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    fetchWeather();
     super.initState();
+    fetchWeather(widget.locations);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios)),
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(_weather?.cityName ?? "Loading City ...."),
+              Text(
+                widget.locations,
+                style: const TextStyle(color: Colors.black, fontSize: 20),
+              ),
               Lottie.asset(getWeatherCondition(_weather?.mainCondition)),
               Column(
                 children: [
-                  Text('${_weather?.temperature.round()} °C'),
-                  Text(_weather?.mainCondition ?? ""),
+                  Text(
+                    '${_weather?.temperature.round()} °C',
+                    style: const TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    _weather?.mainCondition ?? "",
+                    style: const TextStyle(color: Colors.black, fontSize: 18),
+                  ),
                 ],
               ),
             ],
