@@ -1,16 +1,10 @@
 # weather_app
 
-A new Flutter project.
+A Simple Weather app that makes use of openweathermap api
 
-## Getting Started
+## How it works
+- You input the city you want to get the weather off
+- Then takes you to the weather page where it displays the weather of the area
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Screenshot_1697567070](https://github.com/Tosin2289/Weather-app/assets/66890167/e4f997cc-af69-4163-abaf-091b651889b5)
+![Screenshot_1697567098](https://github.com/Tosin2289/Weather-app/assets/66890167/b7ddb567-580f-4a4f-9a7f-d3fc8d1f1b13)
