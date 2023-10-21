@@ -19,21 +19,5 @@ class WeatherService {
     }
   }
 
-  Future<String> getCurrentCity() async {
-    //get permmision
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-    }
-    // fetch current location
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    //convert the position to a list of placemark
-    List<Placemark> placmarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    //extract cityname from the first placemark
-    String? cityname = placmarks[0].locality;
-
-    return cityname ?? "";
-  }
+  
 }

@@ -79,9 +79,7 @@ class SearchPage extends StatelessWidget {
               ),
               BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100),
-                  child: Container(
-                    decoration: const BoxDecoration(color: Colors.transparent),
-                  )),
+                  child: Container()),
               Align(
                 alignment: Alignment.center,
                 child: Container(

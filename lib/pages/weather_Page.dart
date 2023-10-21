@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/services/weather_service.dart';
@@ -12,86 +15,123 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final weatherservice = WeatherService();
-  Weather? _weather;
-  fetchWeather(city) async {
-    String cityName = await weatherservice.getCurrentCity();
-    try {
-      final weather = await weatherservice.getWeather(city);
-      setState(() {
-        _weather = weather;
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  // final weatherservice = WeatherService();
+  // Weather? _weather;
+  // fetchWeather(city) async {
+  //   String cityName = await weatherservice.getCurrentCity();
+  //   try {
+  //     final weather = await weatherservice.getWeather(city);
+  //     setState(() {
+  //       _weather = weather;
+  //     });
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
-  String getWeatherCondition(String? mainCondition) {
-    switch (mainCondition.toString().toLowerCase()) {
-      case 'clouds':
-        return 'assets/cloud.json';
-      case 'mist':
-      case 'smoke':
-      case 'haze':
-      case 'dust':
-      case 'fog':
-        return 'assets/mist.json';
-      case 'rain':
-      case 'drizzle':
-      case 'shower rain':
-      case 'thunderstom':
-        return 'assets/rain.json';
-      case 'clear':
-        return 'assets/sun.json';
-      default:
-        return 'assets/suncloud.json';
-    }
-  }
+  // String getWeatherCondition(String? mainCondition) {
+  //   switch (mainCondition.toString().toLowerCase()) {
+  //     case 'clouds':
+  //       return 'assets/cloud.json';
+  //     case 'mist':
+  //     case 'smoke':
+  //     case 'haze':
+  //     case 'dust':
+  //     case 'fog':
+  //       return 'assets/mist.json';
+  //     case 'rain':
+  //     case 'drizzle':
+  //     case 'shower rain':
+  //     case 'thunderstom':
+  //       return 'assets/rain.json';
+  //     case 'clear':
+  //       return 'assets/sun.json';
+  //     default:
+  //       return 'assets/suncloud.json';
+  //   }
+  // }
 
-  @override
-  void initState() {
-    super.initState();
-    fetchWeather(widget.locations);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   fetchWeather(widget.locations);
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios)),
-        iconTheme: const IconThemeData(color: Colors.black),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
       ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: Padding(
+        padding: const EdgeInsets.all(25),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
             children: [
-              Text(
-                widget.locations,
-                style: const TextStyle(color: Colors.black, fontSize: 20),
+              Align(
+                alignment: const AlignmentDirectional(6, -0.3),
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.deepPurple),
+                ),
               ),
-              Lottie.asset(getWeatherCondition(_weather?.mainCondition)),
-              Column(
-                children: [
-                  Text(
-                    '${_weather?.temperature.round()} °C',
-                    style: const TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    _weather?.mainCondition ?? "",
-                    style: const TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                ],
+              Align(
+                alignment: const AlignmentDirectional(-8, -0.3),
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.deepPurple),
+                ),
               ),
+              Align(
+                alignment: const AlignmentDirectional(0, -1.2),
+                child: Container(
+                  height: 300,
+                  width: 600,
+                  decoration: const BoxDecoration(color: Colors.orange),
+                ),
+              ),
+              BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100),
+                  child: Container()),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50),
+                      child: Text(
+                        '📍Fate-Ilorin',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w300),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    const Text(
+                      'Good day',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Image.asset('assets/images/rain.png')
+                  ],
+                ),
+              )
             ],
           ),
         ),
