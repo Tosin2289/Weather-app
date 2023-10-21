@@ -94,7 +94,7 @@ class SearchPage extends StatelessWidget {
                   child: Stack(
                     children: [
                       BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                        filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
                         child: Container(),
                       ),
                       Container(
