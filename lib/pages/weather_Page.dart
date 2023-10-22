@@ -1,10 +1,11 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lottie/lottie.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/services/weather_service.dart';
+import 'package:weather_app/utils/weather_tile_2.dart';
+
+import '../utils/weather_tile_1.dart';
 
 class HomePage extends StatefulWidget {
   final String locations;
@@ -110,8 +111,8 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 50),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 50),
                       child: Text(
                         '📍Fate-Ilorin',
                         style: TextStyle(
@@ -128,7 +129,76 @@ class _HomePageState extends State<HomePage> {
                           fontSize: 25,
                           fontWeight: FontWeight.bold),
                     ),
-                    Image.asset('assets/images/rain.png')
+                    Image.asset('assets/images/rain.png'),
+                    const Center(
+                      child: Text(
+                        '21℃',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 55,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        'Thunderstorm'.toUpperCase(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Center(
+                      child: Text(
+                        'Friday 16 • 09.41am',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        WeatherTile1(
+                          image: 'assets/images/sunicon.png',
+                          time: '5:34 am',
+                          title: 'Sunrise',
+                        ),
+                        WeatherTile1(
+                          image: 'assets/images/moonicon.png',
+                          time: '5:34 pm',
+                          title: 'Sunset',
+                        ),
+                      ],
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5.0),
+                      child: Divider(
+                        color: Colors.transparent,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        WeatherTile2(
+                          image: 'assets/images/hottemp.png',
+                          subtitle: '12℃',
+                          title: 'Temp min',
+                        ),
+                        WeatherTile2(
+                          image: 'assets/images/cooltemp.png',
+                          subtitle: '8℃',
+                          title: 'Temp Max',
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               )

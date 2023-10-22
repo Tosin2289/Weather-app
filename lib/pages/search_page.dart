@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 import 'package:weather_app/pages/weather_Page.dart';
 
 class SearchPage extends StatelessWidget {
@@ -181,14 +182,9 @@ class SearchPage extends StatelessWidget {
                                                 borderRadius:
                                                     BorderRadius.circular(12))),
                                         onPressed: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                            builder: (context) {
-                                              return HomePage(
-                                                  locations:
-                                                      weatherController.text);
-                                            },
-                                          ));
+                                          Get.to(() => HomePage(
+                                              locations:
+                                                  weatherController.text));
                                         },
                                         child: const Text(
                                           "Search",
