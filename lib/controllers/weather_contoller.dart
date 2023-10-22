@@ -7,13 +7,13 @@ class WeatherController extends GetxController {
   static WeatherController get instance => Get.find();
   static String apiKey = "7a403d8066027a448738bea94939051d";
 
-  Future<void> getWeather(cityName) async {
+  Future<Weather> getWeather(cityName) async {
     try {
       WeatherFactory wf = WeatherFactory(apiKey, language: Language.ENGLISH);
       Weather weather = await wf.currentWeatherByCityName(cityName);
-      print(weather);
+      return weather;
     } catch (e) {
-      print(e);
+      throw Exception(e);
     }
   }
 

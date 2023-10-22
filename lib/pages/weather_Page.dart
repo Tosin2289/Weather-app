@@ -2,26 +2,39 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:weather_app/models/weather_model.dart';
-import 'package:weather_app/services/weather_service.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/utils/weather_tile_2.dart';
-
 import '../controllers/weather_contoller.dart';
 import '../utils/weather_tile_1.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   final String locations;
   const HomePage({super.key, required this.locations});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+  Widget getWeatherIcon(int code) {
+    if (code >= 200 && code < 300) {
+      return Image.asset('assets/images/thunder.png');
+    } else if (code >= 300 && code < 400) {
+      return Image.asset('assets/images/rain.png');
+    } else if (code >= 500 && code < 600) {
+      return Image.asset('assets/images/rainstorm.png');
+    } else if (code >= 600 && code < 700) {
+      return Image.asset('assets/images/snow.png');
+    } else if (code >= 700 && code < 800) {
+      return Image.asset('assets/images/mist.png');
+    } else if (code == 800) {
+      return Image.asset('assets/images/sun.png');
+    } else if (code > 800 && code <= 804) {
+      return Image.asset('assets/images/cloud.png');
+    } else {
+      return Image.asset('assets/images/coolbreez.png');
+    }
+  }
 
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final controllers = Get.put(WeatherController());
-    final location = controllers.getWeather(widget.locations);
+    var location = controllers.getWeather(locations);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -35,7 +48,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: FutureBuilder(
           future: location,
-          builder: (context, snapshot) {
+          builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return Padding(
                 padding: const EdgeInsets.all(25),
@@ -75,99 +88,112 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(top: 50),
-                              child: Text(
-                                '📍Fate-Ilorin',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w300),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 50),
+                                child: Text(
+                                  '📍${snapshot.data.areaName.toUpperCase()}',
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w300),
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            const Text(
-                              'Good day',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Image.asset('assets/images/rain.png'),
-                            const Center(
-                              child: Text(
-                                '21℃',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 55,
-                                    fontWeight: FontWeight.w600),
+                              const SizedBox(
+                                height: 8,
                               ),
-                            ),
-                            Center(
-                              child: Text(
-                                'Thunderstorm'.toUpperCase(),
-                                style: const TextStyle(
+                              const Text(
+                                'Good day',
+                                style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 25,
-                                    fontWeight: FontWeight.w600),
+                                    fontWeight: FontWeight.bold),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            const Center(
-                              child: Text(
-                                'Friday 16 • 09.41am',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600),
+                              getWeatherIcon(
+                                  snapshot.data.weatherConditionCode!),
+                              Center(
+                                child: Text(
+                                  '${snapshot.data.temperature!.celsius.round()}℃',
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 55,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                WeatherTile1(
-                                  image: 'assets/images/sunicon.png',
-                                  time: '5:34 am',
-                                  title: 'Sunrise',
+                              Center(
+                                child: Text(
+                                  snapshot.data.weatherMain!.toUpperCase(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w500),
                                 ),
-                                WeatherTile1(
-                                  image: 'assets/images/moonicon.png',
-                                  time: '5:34 pm',
-                                  title: 'Sunset',
-                                ),
-                              ],
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 5.0),
-                              child: Divider(
-                                color: Colors.transparent,
                               ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                WeatherTile2(
-                                  image: 'assets/images/hottemp.png',
-                                  subtitle: '12℃',
-                                  title: 'Temp max',
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Center(
+                                child: Text(
+                                  DateFormat('EEEE dd •')
+                                      .add_jm()
+                                      .format(snapshot.data.date!),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
                                 ),
-                                WeatherTile2(
-                                  image: 'assets/images/cooltemp.png',
-                                  subtitle: '8℃',
-                                  title: 'Temp Min',
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  WeatherTile1(
+                                    image: 'assets/images/sunicon.png',
+                                    time: DateFormat()
+                                        .add_jm()
+                                        .format(snapshot.data.sunrise!),
+                                    title: 'Sunrise',
+                                  ),
+                                  WeatherTile1(
+                                    image: 'assets/images/moonicon.png',
+                                    time: DateFormat()
+                                        .add_jm()
+                                        .format(snapshot.data.sunset!),
+                                    title: 'Sunset',
+                                  ),
+                                ],
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 5.0),
+                                child: Divider(
+                                  color: Colors.transparent,
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  WeatherTile2(
+                                    image: 'assets/images/hottemp.png',
+                                    subtitle:
+                                        '${snapshot.data.tempMax!.celsius!.round().toString()} ℃',
+                                    title: 'Temp max',
+                                  ),
+                                  WeatherTile2(
+                                    image: 'assets/images/cooltemp.png',
+                                    subtitle:
+                                        '${snapshot.data.tempMin!.celsius!.round().toString()} ℃',
+                                    title: 'Temp Min',
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     ],
@@ -175,9 +201,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             } else {
-              return const Center(
-                child: CircularProgressIndicator.adaptive(
-                  backgroundColor: Colors.deepOrange,
+              return Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.deepOrange.shade100,
                 ),
               );
             }
