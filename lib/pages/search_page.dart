@@ -119,7 +119,7 @@ class SearchPage extends StatelessWidget {
                               "Weather in your city",
                               style: TextStyle(
                                   fontSize: 30,
-                                  color: Colors.white70.withOpacity(0.4),
+                                  color: Colors.white.withOpacity(0.7),
                                   fontWeight: FontWeight.w600),
                             ),
                             Padding(

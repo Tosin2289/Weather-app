@@ -7,7 +7,8 @@ class WeatherTile1 extends StatelessWidget {
     required this.image,
     required this.title,
   }) : super(key: key);
-  final String image, title, time;
+  final String image, title;
+  final time;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -30,7 +31,7 @@ class WeatherTile1 extends StatelessWidget {
             const SizedBox(
               height: 3,
             ),
-            Text(time,
+            Text(time.toString(),
                 style: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.w700)),
           ],
