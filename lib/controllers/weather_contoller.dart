@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather/weather.dart';
@@ -13,7 +14,7 @@ class WeatherController extends GetxController {
       Weather weather = await wf.currentWeatherByCityName(cityName);
       return weather;
     } catch (e) {
-      throw Exception(e);
+      rethrow;
     }
   }
 

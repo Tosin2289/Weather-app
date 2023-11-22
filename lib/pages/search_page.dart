@@ -49,7 +49,7 @@ class SearchPage extends StatelessWidget {
                 child: Container(
                   height: 300,
                   width: 600,
-                  decoration: const BoxDecoration(color: Colors.orange),
+                  decoration: const BoxDecoration(color: Colors.deepOrange),
                 ),
               ),
               Align(
@@ -57,7 +57,7 @@ class SearchPage extends StatelessWidget {
                 child: Container(
                   height: 300,
                   width: 600,
-                  decoration: const BoxDecoration(color: Colors.orange),
+                  decoration: const BoxDecoration(color: Colors.deepOrange),
                 ),
               ),
               Align(
@@ -184,7 +184,7 @@ class SearchPage extends StatelessWidget {
                                         onPressed: () {
                                           Get.to(() => HomePage(
                                               locations:
-                                                  weatherController.text));
+                                                  weatherController.text.trim()));
                                         },
                                         child: const Text(
                                           "Search",

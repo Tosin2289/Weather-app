@@ -79,7 +79,8 @@ class HomePage extends StatelessWidget {
                         child: Container(
                           height: 300,
                           width: 600,
-                          decoration: const BoxDecoration(color: Colors.orange),
+                          decoration:
+                              const BoxDecoration(color: Colors.deepOrange),
                         ),
                       ),
                       BackdropFilter(
