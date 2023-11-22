@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class WeatherController extends GetxController {
   static WeatherController get instance => Get.find();
-  static String apiKey = "7a403d8066027a448738bea94939051d";
+  static String apiKey = "Your api key";
 
   Future<Weather> getWeather(cityName) async {
     try {
